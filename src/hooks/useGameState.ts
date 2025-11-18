@@ -2,11 +2,12 @@
  * React hook for managing game state
  */
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import type { GameState, Message, MessageType } from '../types/game';
 import { generatePuzzle, getTodayDateSeed } from '../utils/puzzleGenerator';
 import { validateWord } from '../utils/wordValidator';
 import { isRareWord, getRareWordMessage } from '../utils/scoring';
+import { loadProgress, saveProgress } from '../utils/storage';
 
 /**
  * Initialize a new game state
@@ -15,11 +16,14 @@ function initializeGame(): GameState {
   const dateSeed = getTodayDateSeed();
   const puzzle = generatePuzzle(dateSeed);
 
+  // Try to load saved progress for today
+  const savedProgress = loadProgress(dateSeed);
+
   return {
     puzzle,
-    foundWords: [],
+    foundWords: savedProgress?.foundWords || [],
     currentWord: '',
-    score: 0,
+    score: savedProgress?.score || 0,
     shuffledOrder: [0, 1, 2, 3, 4, 5, 6],
     message: null,
   };
@@ -30,6 +34,14 @@ function initializeGame(): GameState {
  */
 export function useGameState() {
   const [gameState, setGameState] = useState<GameState>(initializeGame());
+
+  // Auto-save progress whenever foundWords or score changes
+  useEffect(() => {
+    if (gameState.foundWords.length > 0) {
+      const dateSeed = getTodayDateSeed();
+      saveProgress(dateSeed, gameState.foundWords, gameState.score);
+    }
+  }, [gameState.foundWords, gameState.score]);
 
   /**
    * Add a letter to the current word
