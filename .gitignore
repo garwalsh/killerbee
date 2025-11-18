@@ -30,3 +30,9 @@ lerna-debug.log*
 .env
 .env.local
 .env.*.local
+
+# Vercel
+.vercel
+
+# Obsidian
+.obsidian/

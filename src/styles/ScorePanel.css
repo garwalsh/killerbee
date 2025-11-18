@@ -2,7 +2,7 @@
   display: flex;
   gap: 30px;
   justify-content: center;
-  padding: 30px 20px;
+  padding: 30px 20px 15px 20px;
 }
 
 .score-item {
@@ -42,7 +42,7 @@
   .score-panel {
     flex-direction: column;
     gap: 15px;
-    padding: 25px 15px;
+    padding: 25px 15px 12.5px 15px;
   }
 
   .score-label {
@@ -63,7 +63,7 @@
 @media (min-width: 768px) {
   .score-panel {
     gap: 50px;
-    padding: 35px 25px;
+    padding: 35px 25px 17.5px 25px;
   }
 
   .score-label {

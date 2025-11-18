@@ -7,7 +7,7 @@ interface ScorePanelProps {
   totalWords: number;
 }
 
-export function ScorePanel({ score, maxScore, foundWords, totalWords }: ScorePanelProps) {
+export function ScorePanel({ score, maxScore }: ScorePanelProps) {
   const progress = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
 
   return (
@@ -18,10 +18,6 @@ export function ScorePanel({ score, maxScore, foundWords, totalWords }: ScorePan
         <div className="progress-bar">
           <div className="progress-fill" style={{ width: `${progress}%` }} />
         </div>
-      </div>
-      <div className="score-item">
-        <div className="score-label">Words</div>
-        <div className="score-value">{foundWords} / {totalWords}</div>
       </div>
     </div>
   );
