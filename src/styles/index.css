@@ -4,13 +4,60 @@
   box-sizing: border-box;
 }
 
+:root {
+  /* Retro color palette */
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --accent-primary: #0f3460;
+  --accent-secondary: #533483;
+  --text-primary: #eaeaea;
+  --text-secondary: #a0a0a0;
+  --success: #4ecca3;
+  --error: #e94560;
+  --warning: #f9a826;
+  --rare: #ffbb00;
+  --pangram: #ff6b9d;
+
+  /* Letter tile colors */
+  --tile-bg: #16213e;
+  --tile-border: #533483;
+  --tile-hover: #0f3460;
+  --tile-active: #533483;
+  --center-letter-bg: #533483;
+  --center-letter-border: #ff6b9d;
+}
+
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Press Start 2P', cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 #root {
   width: 100%;
   min-height: 100vh;
+}
+
+/* Utility classes */
+.pixel-borders {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Responsive font sizing */
+@media (min-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    font-size: 16px;
+  }
 }

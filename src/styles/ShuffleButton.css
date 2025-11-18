@@ -1,0 +1,35 @@
+.shuffle-button {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.8rem;
+  padding: 12px 24px;
+  background-color: var(--accent-primary);
+  border: 3px solid var(--accent-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  margin: 10px;
+}
+
+.shuffle-button:hover {
+  background-color: var(--accent-secondary);
+  transform: scale(1.05);
+}
+
+.shuffle-button:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 480px) {
+  .shuffle-button {
+    font-size: 0.6rem;
+    padding: 10px 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .shuffle-button {
+    font-size: 0.9rem;
+    padding: 15px 30px;
+  }
+}

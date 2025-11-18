@@ -1,0 +1,62 @@
+.letter-tile {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.5rem;
+  width: 60px;
+  height: 60px;
+  background-color: var(--tile-bg);
+  border: 3px solid var(--tile-border);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-transform: uppercase;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.letter-tile:hover {
+  background-color: var(--tile-hover);
+  transform: translateY(-2px);
+  border-color: var(--accent-secondary);
+}
+
+.letter-tile:active {
+  background-color: var(--tile-active);
+  transform: translateY(0);
+}
+
+.letter-tile.center-letter {
+  background-color: var(--center-letter-bg);
+  border-color: var(--center-letter-border);
+  border-width: 4px;
+}
+
+.letter-tile.center-letter:hover {
+  background-color: var(--accent-secondary);
+  border-color: var(--pangram);
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .letter-tile {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Larger screens */
+@media (min-width: 768px) {
+  .letter-tile {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
+  }
+}
+
+/* Ensure minimum touch target size */
+@media (hover: none) {
+  .letter-tile {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}

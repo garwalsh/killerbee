@@ -1,0 +1,82 @@
+.score-panel {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  padding: 20px;
+  background-color: var(--bg-secondary);
+  border-bottom: 3px solid var(--accent-primary);
+}
+
+.score-item {
+  text-align: center;
+}
+
+.score-label {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.score-value {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.2rem;
+  color: var(--success);
+}
+
+.progress-bar {
+  width: 200px;
+  height: 12px;
+  background-color: var(--bg-primary);
+  border: 2px solid var(--accent-secondary);
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--success);
+  transition: width 0.3s ease;
+}
+
+@media (max-width: 480px) {
+  .score-panel {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .score-label {
+    font-size: 0.6rem;
+  }
+
+  .score-value {
+    font-size: 1rem;
+  }
+
+  .progress-bar {
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .score-panel {
+    gap: 50px;
+    padding: 25px;
+  }
+
+  .score-label {
+    font-size: 0.8rem;
+  }
+
+  .score-value {
+    font-size: 1.5rem;
+  }
+
+  .progress-bar {
+    width: 250px;
+  }
+}

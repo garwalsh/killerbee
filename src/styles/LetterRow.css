@@ -1,0 +1,22 @@
+.letter-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+@media (max-width: 480px) {
+  .letter-row {
+    gap: 8px;
+    padding: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .letter-row {
+    gap: 16px;
+    padding: 30px;
+  }
+}

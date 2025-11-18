@@ -1,0 +1,79 @@
+.found-words {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.found-words-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 15px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.found-words-empty {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 30px;
+}
+
+.found-words-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.found-word {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.7rem;
+  padding: 10px;
+  background-color: var(--bg-secondary);
+  border: 2px solid var(--accent-primary);
+  color: var(--text-primary);
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .found-words {
+    padding: 15px;
+  }
+
+  .found-words-title {
+    font-size: 0.7rem;
+  }
+
+  .found-words-list {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+  }
+
+  .found-word {
+    font-size: 0.5rem;
+    padding: 8px;
+  }
+}
+
+@media (min-width: 768px) {
+  .found-words {
+    padding: 30px;
+  }
+
+  .found-words-title {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+
+  .found-words-list {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+
+  .found-word {
+    font-size: 0.8rem;
+    padding: 12px;
+  }
+}
