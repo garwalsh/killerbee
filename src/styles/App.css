@@ -152,7 +152,7 @@
   }
 
   .game-area {
-    padding: 15px;
+    padding: 0 15px 15px 15px;
   }
 
   .game-controls {
@@ -192,7 +192,7 @@
   }
 
   .game-area {
-    padding: 30px;
+    padding: 0 30px 30px 30px;
   }
 
   .game-controls {

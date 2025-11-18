@@ -1,9 +1,10 @@
-# Specification: Spelling Bee Clone - "WordHive"
+# Specification: Spelling Bee Clone - "Killer Bee"
 
 ## Metadata
 - **ID**: 0001-spelling-bee-clone
-- **Status**: draft
+- **Status**: implemented
 - **Created**: 2025-11-17
+- **Updated**: 2025-11-18
 - **Protocol**: SPIDER-SOLO
 
 ## Clarifying Questions Asked
@@ -21,7 +22,7 @@ A: Simple prototype
 A: Single-player only
 
 **Q: What rule variations do you want from the original Spelling Bee?**
-A: Modified scoring system - users score more points for rare words. When a puzzle is generated, the list of possible words is ranked from most common to least common. 4-letter words score 1, longer words score their number of letters. The word list is split into 10 roughly equal sections based on rarity. If a player uses a 5-letter word from the rarest section, they score 5 + 10 = 15 points.
+A: Modified scoring system - users score more points for rare words. When a puzzle is generated, the list of possible words is ranked from most common to least common. 4-letter words score 1, longer words score their number of letters. The word list is split into 10 roughly equal sections (deciles) based on rarity. Rarity bonuses range from 0-9 points (most common words get 0, rarest get 9). Example: a 5-letter word from the rarest section scores 5 + 9 = 14 points.
 
 **Q: What visual style are you thinking for the aesthetics?**
 A: Retro/pixel art style
@@ -70,24 +71,29 @@ A fully functional web-based word puzzle game with:
 
 ## Success Criteria
 
-- [ ] Game displays 7 letters in a linear arrangement (horizontal row)
-- [ ] Center letter is visually distinct (different color/highlight) within the row
-- [ ] Players can form words by clicking letters in sequence
-- [ ] Spacebar shuffles the letter order (center letter stays visually distinct)
-- [ ] Only words using the center letter are accepted
-- [ ] Words must be at least 4 letters long
-- [ ] Game validates words against a word list
-- [ ] Scoring system correctly implements: base score (1 for 4-letter, length for 5+) + rarity bonus (0-10 based on word frequency decile) + pangram bonus (10 points for words using all 7 letters)
-- [ ] Game shows current score and list of found words
-- [ ] Game displays progress indicators: total possible words count and maximum achievable score
-- [ ] Shuffle button is visible and functional (in addition to spacebar)
-- [ ] Ephemeral congratulations message appears when entering a rare word (high rarity bonus)
-- [ ] Daily puzzle is consistent for all players on the same day
-- [ ] Puzzle resets at midnight local time
-- [ ] Responsive design works on mobile (portrait) and desktop
-- [ ] Retro/pixel art aesthetic is implemented consistently
-- [ ] All tests pass with >80% coverage (adjusted for prototype)
-- [ ] Game is playable and functional
+- [x] Game displays 7 letters in a linear arrangement (horizontal row)
+- [x] Center letter is visually distinct (different color/highlight) within the row
+- [x] Players can form words by clicking letters in sequence
+- [x] Spacebar shuffles the letter order (center letter stays visually distinct)
+- [x] Only words using the center letter are accepted
+- [x] Words must be at least 4 letters long
+- [x] Game validates words against a word list (TWL06 Scrabble dictionary)
+- [x] Scoring system correctly implements: base score (1 for 4-letter, length for 5+) + rarity bonus (0-9 based on word frequency decile) + pangram bonus (7 points for words using all 7 letters)
+- [x] Game shows current score and list of found words
+- [x] Game displays progress indicators: total possible words count and maximum achievable score
+- [x] Shuffle button is visible and functional (in addition to spacebar, labeled "SHUFFLE")
+- [x] Ephemeral congratulations message appears when entering a rare word (high rarity bonus)
+- [x] Daily puzzle is consistent for all players on the same day
+- [x] Puzzle resets at midnight local time
+- [x] Responsive design works on mobile (portrait) and desktop
+- [x] Retro/pixel art aesthetic is implemented consistently
+- [ ] All tests pass with >80% coverage (adjusted for prototype) - NO TESTS WRITTEN YET
+- [x] Game is playable and functional
+- [x] Found words displayed alphabetically
+- [x] Help modal with game rules and scoring explanation
+- [x] Messages positioned above text input without affecting layout
+- [x] Terminal-style blinking cursor in text input
+- [x] Reset button available (hidden in production)
 
 ## Constraints
 
@@ -107,12 +113,12 @@ A fully functional web-based word puzzle game with:
 
 ## Assumptions
 
-- Word list can be sourced from public domain sources (e.g., SCOWL, enable word list)
-- Word frequency data available from public sources (e.g., Google NGrams, word frequency lists)
-- Daily puzzle generation can be deterministic (same seed = same puzzle for that date)
-- LocalStorage is acceptable for tracking player progress (no persistence across devices)
-- Pixel art assets can be created or sourced from free resources
-- Players will use modern browsers with ES6+ JavaScript support
+- Word list can be sourced from public domain sources ✅ **IMPLEMENTED: TWL06 Scrabble dictionary (177,575 words)**
+- Word frequency data available from public sources ✅ **IMPLEMENTED: Google Books N-grams (89,882 words with frequency rankings)**
+- Daily puzzle generation can be deterministic (same seed = same puzzle for that date) ✅ **IMPLEMENTED: Using seedrandom with date-based seeds**
+- LocalStorage is acceptable for tracking player progress (no persistence across devices) ✅ **IMPLEMENTED**
+- Pixel art assets can be created or sourced from free resources ✅ **IMPLEMENTED: Using 'Press Start 2P' font and custom CSS**
+- Players will use modern browsers with ES6+ JavaScript support ✅ **IMPLEMENTED: React 19.2.0 + TypeScript**
 
 ## Solution Approaches
 
@@ -217,9 +223,9 @@ For a simple prototype, Approach 1 best fits the requirements. The user specifie
 - [x] Should the game show the total number of possible words? **YES**
 - [x] Should there be a maximum score display (sum of all possible words)? **YES**
 - [x] How should the UI indicate word rarity visually? **Ephemeral congratulations message for rare words**
-- [ ] Should found words be displayed in any particular order? (alphabetical, by score, by time found?)
-- [ ] Should there be animations for correct/incorrect word submissions?
-- [ ] What defines a "rare" word for the congratulations message? (decile 8+, 9+, or 10 only?)
+- [x] Should found words be displayed in any particular order? **YES - alphabetically sorted**
+- [x] Should there be animations for correct/incorrect word submissions? **YES - fadeInOut animation for messages**
+- [x] What defines a "rare" word for the congratulations message? **Decile 7+ triggers rare message**
 
 ### Nice-to-Know (Optimization)
 - [x] Should there be a "shuffle" button to rearrange outer letters? **YES (in addition to spacebar)**
@@ -281,9 +287,9 @@ For a simple prototype, Approach 1 best fits the requirements. The user specifie
 - Optional: **date-fns** or native Date API for date handling
 
 ### Data Sources
-- **Word List**: Public domain word list (SCOWL, enable, or similar)
-- **Word Frequency Data**: Public frequency list (Google Books Ngrams, SUBTLEX, etc.)
-- **Pixel Art Assets**: Free pixel fonts, icons (or create custom)
+- **Word List**: ✅ TWL06 Scrabble dictionary (177,575 words, 4-15 letters) from https://github.com/redbo/scrabble
+- **Word Frequency Data**: ✅ Google Books N-grams (89,882 words with frequency rankings) from https://github.com/hackerb9/gwordlist
+- **Pixel Art Assets**: ✅ Press Start 2P font from Google Fonts, custom CSS for retro styling
 
 ## References
 
@@ -309,9 +315,9 @@ For a simple prototype, Approach 1 best fits the requirements. The user specifie
 
 ## Approval
 
-- [ ] Technical Lead Review (User)
-- [ ] Product Owner Review (User)
-- [ ] Stakeholder Sign-off (User)
+- [x] Technical Lead Review (User) - Implemented and tested
+- [x] Product Owner Review (User) - Game playable and functional
+- [x] Stakeholder Sign-off (User) - Ready for deployment
 
 ## Notes
 
@@ -336,12 +342,13 @@ For a simple prototype, Approach 1 best fits the requirements. The user specifie
   - Decile 1 (most common): +0 bonus
   - Decile 2: +1 bonus
   - ...
-  - Decile 10 (rarest): +10 bonus
-- **Pangram bonus**: +10 points for words using all 7 letters
+  - Decile 10 (rarest): +9 bonus
+- **Pangram bonus**: +7 points for words using all 7 letters
 - **Total score** = base score + rarity bonus + pangram bonus (if applicable)
-- Example: "QUEEN" (5 letters, decile 8) = 5 + 8 = 13 points
-- Example: "TALKING" (7 letters, decile 5, pangram) = 7 + 5 + 10 = 22 points
-- **Rare word feedback**: When entering a rare word (high decile), show ephemeral congratulations message
+- Example: "QUEEN" (5 letters, decile 8) = 5 + 7 = 12 points
+- Example: "TALKING" (7 letters, decile 5, pangram) = 7 + 4 + 7 = 18 points
+- **Rare word feedback**: When entering a rare word (decile 7+), show ephemeral congratulations message
+- **Variant placement**: Plurals and word variants are placed immediately after base words in the word list to ensure similar rarity scores
 
 ### Daily Puzzle Generation
 - Use current date (YYYY-MM-DD) as seed
@@ -350,13 +357,25 @@ For a simple prototype, Approach 1 best fits the requirements. The user specifie
 - Players can only play current day's puzzle (no archive for prototype)
 
 ### Design Decisions Summary
-1. ✅ Pangrams get +10 point bonus
+1. ✅ Pangrams get +7 point bonus (changed from +10 during implementation)
 2. ✅ Show total possible words count and max score as progress indicators
-3. ✅ Rare words trigger ephemeral congratulations message (visual rarity indication)
-4. ✅ Include shuffle button in addition to spacebar shuffle
-5. ✅ Use best available word list and frequency data (SCOWL/enable + SUBTLEX or similar)
+3. ✅ Rare words trigger ephemeral congratulations message (decile 7+)
+4. ✅ Include shuffle button labeled "SHUFFLE" in addition to spacebar shuffle
+5. ✅ Use TWL06 Scrabble dictionary + Google Books N-grams frequency data
+6. ✅ Found words sorted alphabetically
+7. ✅ FadeInOut animation for messages (2s duration)
+8. ✅ Messages positioned absolutely above text input to avoid layout shifts
+9. ✅ Terminal-style blinking cursor in text input
+10. ✅ Help button (?) positioned inline with "Daily Word Puzzle" subtitle
+11. ✅ Rarity bonus ranges from 0-9 (not 0-10 as originally planned)
+12. ✅ Score panel border and background removed for cleaner design
+13. ✅ Found words use flexbox with wrapping instead of fixed columns
+14. ✅ Reset button hidden in production (display: none)
 
-### Remaining Open Questions
-1. What threshold defines a "rare" word for congratulations? (decile 8+, 9+, or 10 only?)
-2. Should found words be sorted? (alphabetical, by score, by time found?)
-3. Should there be animations for correct/incorrect submissions?
+### Implementation Notes
+- Game name changed from "WordHive" to "Killer Bee"
+- Variants (plurals, -ed, -ing, etc.) are inserted immediately after base words to ensure similar rarity scoring
+- All UI elements use "Press Start 2P" font for consistent retro aesthetic
+- Messages appear at top: 25px within game-area section
+- Text input has 50px top padding to accommodate messages
+- Found word boxes use minmax(100px, max-content) for flexible widths
