@@ -9,7 +9,7 @@ interface SavedProgress {
   lastPlayed: number;
 }
 
-const STORAGE_KEY = 'wordhive-progress';
+const STORAGE_KEY = 'killerbee-progress';
 
 /**
  * Save current game progress to localStorage

@@ -102,7 +102,8 @@ export function useGameState() {
     };
     setGameState(prev => ({ ...prev, message }));
 
-    // Auto-clear message after 3 seconds
+    // Auto-clear message after 2 seconds for errors, 3 seconds for success
+    const timeout = type === 'error' ? 2000 : 3000;
     setTimeout(() => {
       setGameState(prev => {
         // Only clear if it's still the same message
@@ -111,7 +112,7 @@ export function useGameState() {
         }
         return prev;
       });
-    }, 3000);
+    }, timeout);
   }, []);
 
   /**

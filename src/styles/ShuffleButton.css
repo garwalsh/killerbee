@@ -8,7 +8,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   text-transform: uppercase;
-  margin: 10px;
+  /* Remove margin to match control buttons */
 }
 
 .shuffle-button:hover {

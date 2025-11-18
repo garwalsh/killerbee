@@ -1,7 +1,7 @@
 {
-  "name": "wordhive",
+  "name": "killerbee",
   "version": "0.1.0",
-  "description": "A retro/pixel art Spelling Bee clone with rarity-based scoring",
+  "description": "Killer Bee - A retro/pixel art Spelling Bee clone with rarity-based scoring",
   "type": "module",
   "scripts": {
     "dev": "vite",

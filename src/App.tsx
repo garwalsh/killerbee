@@ -66,7 +66,7 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1 className="app-title">WordHive</h1>
+        <h1 className="app-title">Killer Bee</h1>
         <p className="app-subtitle">Daily Word Puzzle</p>
       </header>
 
