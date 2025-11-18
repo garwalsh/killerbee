@@ -10,6 +10,30 @@
   padding: 30px 20px;
   background-color: var(--bg-secondary);
   border-bottom: 3px solid var(--accent-secondary);
+  position: relative;
+}
+
+.help-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.2rem;
+  width: 40px;
+  height: 40px;
+  background-color: var(--accent-primary);
+  border: 3px solid var(--accent-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.help-button:hover {
+  background-color: var(--accent-secondary);
+  transform: scale(1.1);
 }
 
 .app-title {
@@ -89,6 +113,14 @@
     padding: 20px 15px;
   }
 
+  .help-button {
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+
   .app-title {
     font-size: 1.5rem;
   }
@@ -120,6 +152,14 @@
 @media (min-width: 768px) {
   .app-header {
     padding: 40px 30px;
+  }
+
+  .help-button {
+    top: 25px;
+    right: 25px;
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
   }
 
   .app-title {

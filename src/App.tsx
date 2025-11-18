@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { useGameState } from './hooks/useGameState';
 import { ScorePanel } from './components/ScorePanel';
 import { CurrentWord } from './components/CurrentWord';
@@ -6,6 +6,7 @@ import { LetterRow } from './components/LetterRow';
 import { ShuffleButton } from './components/ShuffleButton';
 import { Message } from './components/Message';
 import { FoundWords } from './components/FoundWords';
+import { HelpModal } from './components/HelpModal';
 import './styles/App.css';
 
 function App() {
@@ -17,6 +18,8 @@ function App() {
     shuffleLetters,
     submitWord,
   } = useGameState();
+
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
 
   // Keyboard event handler
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
@@ -66,6 +69,13 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
+        <button
+          className="help-button"
+          onClick={() => setIsHelpOpen(true)}
+          aria-label="Help"
+        >
+          ?
+        </button>
         <h1 className="app-title">Killer Bee</h1>
         <p className="app-subtitle">Daily Word Puzzle</p>
       </header>
@@ -105,6 +115,8 @@ function App() {
       <footer className="app-footer">
         <p>Press SPACE to shuffle • ENTER to submit • ESC to clear</p>
       </footer>
+
+      <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
     </div>
   );
 }
