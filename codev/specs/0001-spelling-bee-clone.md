@@ -32,6 +32,9 @@ A: Yes, daily puzzles (same puzzle for all players each day, resets at midnight)
 **Q: Do you have a preference for the tech stack?**
 A: React + TypeScript
 
+**Q: Do you want a hexagonal letter arrangement like the original?**
+A: No, letters should be displayed in a line. Players can shuffle them by hitting the spacebar.
+
 ## Problem Statement
 
 Word puzzle game enthusiasts enjoy games like NYT's Spelling Bee, but may want different visual aesthetics (retro/pixel art instead of modern minimalism) and a scoring system that rewards vocabulary depth rather than just word length. The current Spelling Bee treats all words of the same length equally, which doesn't incentivize players to think of less common words.
@@ -51,6 +54,8 @@ This is a greenfield project. No existing codebase. The user wants to build this
 A fully functional web-based word puzzle game with:
 - Retro/pixel art aesthetic
 - Spelling Bee-style gameplay (7 letters, 1 center letter that must be used)
+- Linear letter arrangement (all letters in a row, not hexagonal)
+- Spacebar to shuffle letter order
 - Rarity-based scoring system that rewards uncommon words
 - Daily puzzle functionality (same puzzle for everyone each day)
 - Responsive design working on both desktop and mobile browsers
@@ -65,9 +70,10 @@ A fully functional web-based word puzzle game with:
 
 ## Success Criteria
 
-- [ ] Game displays 7 letters in a hexagonal arrangement (6 outer, 1 center)
-- [ ] Center letter is visually distinct (different color/highlight)
+- [ ] Game displays 7 letters in a linear arrangement (horizontal row)
+- [ ] Center letter is visually distinct (different color/highlight) within the row
 - [ ] Players can form words by clicking letters in sequence
+- [ ] Spacebar shuffles the letter order (center letter stays visually distinct)
 - [ ] Only words using the center letter are accepted
 - [ ] Words must be at least 4 letters long
 - [ ] Game validates words against a word list
@@ -241,8 +247,9 @@ For a simple prototype, Approach 1 best fits the requirements. The user specifie
 4. **Too Short Word**: User tries "CAT" (3 letters), word is rejected (minimum 4 letters)
 5. **Duplicate Word**: User enters "HELLO" twice, second attempt rejected with "already found" message
 6. **Rarity Scoring**: User enters common word "GOOD" (scores base points) vs rare word "QUIXOTIC" (scores base + high rarity bonus)
-7. **Daily Puzzle Consistency**: Two users on the same day see identical 7-letter puzzle
-8. **Midnight Reset**: User plays puzzle, waits until midnight, sees new puzzle with reset score
+7. **Letter Shuffle**: User presses spacebar, letter order changes but center letter remains visually distinct
+8. **Daily Puzzle Consistency**: Two users on the same day see identical 7-letter puzzle
+9. **Midnight Reset**: User plays puzzle, waits until midnight, sees new puzzle with reset score
 
 ### Non-Functional Tests
 1. **Mobile Responsiveness**: Game UI scales properly on iPhone SE (375px width) through desktop (1920px)
@@ -303,7 +310,9 @@ For a simple prototype, Approach 1 best fits the requirements. The user specifie
 ## Notes
 
 ### Game Rules Summary (Spelling Bee Clone)
-- 7 letters displayed (6 outer, 1 center in different color)
+- 7 letters displayed in a horizontal line
+- Center letter is visually distinct (different color/style) but displayed inline with others
+- Press spacebar to shuffle the letter order (center letter remains visually distinct)
 - Form words by clicking letters in sequence
 - Words must:
   - Be at least 4 letters long
@@ -335,5 +344,5 @@ For a simple prototype, Approach 1 best fits the requirements. The user specifie
 1. Should pangrams (words using all 7 letters) get a bonus?
 2. Should we show total possible words count and max score?
 3. How to visually indicate word rarity? (color code, badges, text?)
-4. Include shuffle button for letters?
+4. Should there be a shuffle button in addition to spacebar shuffle?
 5. Which specific word list and frequency data source?
