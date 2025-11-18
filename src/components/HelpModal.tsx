@@ -46,16 +46,6 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
             <li>"WORKING" (7 letters, pangram) = 7 + 3 + 10 = <strong>20 points</strong></li>
           </ul>
         </div>
-
-        <div className="modal-section">
-          <h3>Keyboard Shortcuts</h3>
-          <ul>
-            <li><strong>SPACE:</strong> Shuffle letters</li>
-            <li><strong>ENTER:</strong> Submit word</li>
-            <li><strong>BACKSPACE:</strong> Delete last letter</li>
-            <li><strong>ESC:</strong> Clear current word</li>
-          </ul>
-        </div>
       </div>
     </div>
   );

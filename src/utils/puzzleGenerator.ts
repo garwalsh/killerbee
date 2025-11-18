@@ -8,6 +8,20 @@ import type { Puzzle, WordScore } from '../types/game';
 import { calculateWordScore } from './scoring';
 import wordList from '../data/words.json';
 
+// Curated letter sets that produce good puzzles
+const GOOD_LETTER_SETS = [
+  { letters: ['a', 'e', 'i', 'n', 'r', 's', 't'], center: 'a' },
+  { letters: ['a', 'e', 'r', 's', 't', 'l', 'n'], center: 'e' },
+  { letters: ['a', 'e', 'o', 'r', 't', 'n', 's'], center: 'o' },
+  { letters: ['a', 'i', 'o', 'n', 's', 't', 'r'], center: 'i' },
+  { letters: ['e', 'a', 'r', 'l', 't', 's', 'n'], center: 'r' },
+  { letters: ['a', 'e', 'i', 'l', 't', 's', 'n'], center: 't' },
+  { letters: ['a', 'e', 'o', 'n', 'd', 'r', 's'], center: 'n' },
+  { letters: ['a', 'e', 'i', 'r', 's', 'd', 'n'], center: 's' },
+  { letters: ['a', 'o', 'e', 'l', 'r', 't', 's'], center: 'l' },
+  { letters: ['a', 'e', 'i', 'g', 'n', 'r', 't'], center: 'g' },
+];
+
 /**
  * Generate a puzzle for a given date seed
  * @param dateSeed - String representation of date (e.g., "2025-11-17")
@@ -16,55 +30,13 @@ import wordList from '../data/words.json';
 export function generatePuzzle(dateSeed: string): Puzzle {
   const rng = seedrandom(dateSeed);
 
-  // Try multiple times to find a valid puzzle
-  for (let attempt = 0; attempt < 100; attempt++) {
-    const letters = selectLetters(rng);
-    const centerLetter = letters[Math.floor(rng() * letters.length)];
+  // Pick a good letter set from the curated list
+  const letterSetIndex = Math.floor(rng() * GOOD_LETTER_SETS.length);
+  const { letters, center } = GOOD_LETTER_SETS[letterSetIndex];
 
-    const validWords = findValidWords(letters, centerLetter);
+  const validWords = findValidWords(letters, center);
 
-    // Ensure puzzle has enough words (at least 20)
-    if (validWords.length >= 20) {
-      return buildPuzzle(letters, centerLetter, validWords);
-    }
-  }
-
-  // Fallback: use a known good set of letters
-  return buildPuzzle(
-    ['a', 'e', 'i', 'n', 'r', 's', 't'],
-    'a',
-    findValidWords(['a', 'e', 'i', 'n', 'r', 's', 't'], 'a')
-  );
-}
-
-/**
- * Select 7 letters with good distribution
- * Includes vowels and common consonants
- */
-function selectLetters(rng: () => number): string[] {
-  const vowels = ['a', 'e', 'i', 'o', 'u'];
-  const commonConsonants = ['r', 's', 't', 'n', 'l', 'd', 'c', 'h', 'p', 'm', 'b', 'g', 'f'];
-
-  const letters: string[] = [];
-
-  // Pick 2-3 vowels
-  const vowelCount = Math.floor(rng() * 2) + 2; // 2 or 3
-  for (let i = 0; i < vowelCount; i++) {
-    const vowel = vowels[Math.floor(rng() * vowels.length)];
-    if (!letters.includes(vowel)) {
-      letters.push(vowel);
-    }
-  }
-
-  // Fill remaining with consonants
-  while (letters.length < 7) {
-    const consonant = commonConsonants[Math.floor(rng() * commonConsonants.length)];
-    if (!letters.includes(consonant)) {
-      letters.push(consonant);
-    }
-  }
-
-  return letters;
+  return buildPuzzle(letters, center, validWords);
 }
 
 /**

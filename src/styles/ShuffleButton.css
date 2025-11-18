@@ -8,7 +8,15 @@
   cursor: pointer;
   transition: all 0.2s ease;
   text-transform: uppercase;
-  /* Remove margin to match control buttons */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shuffle-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--text-primary);
 }
 
 .shuffle-button:hover {
