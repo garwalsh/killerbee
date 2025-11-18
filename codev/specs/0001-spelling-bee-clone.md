@@ -77,8 +77,11 @@ A fully functional web-based word puzzle game with:
 - [ ] Only words using the center letter are accepted
 - [ ] Words must be at least 4 letters long
 - [ ] Game validates words against a word list
-- [ ] Scoring system correctly implements: base score (1 for 4-letter, length for 5+) + rarity bonus (0-10 based on word frequency decile)
+- [ ] Scoring system correctly implements: base score (1 for 4-letter, length for 5+) + rarity bonus (0-10 based on word frequency decile) + pangram bonus (10 points for words using all 7 letters)
 - [ ] Game shows current score and list of found words
+- [ ] Game displays progress indicators: total possible words count and maximum achievable score
+- [ ] Shuffle button is visible and functional (in addition to spacebar)
+- [ ] Ephemeral congratulations message appears when entering a rare word (high rarity bonus)
 - [ ] Daily puzzle is consistent for all players on the same day
 - [ ] Puzzle resets at midnight local time
 - [ ] Responsive design works on mobile (portrait) and desktop
@@ -206,19 +209,20 @@ For a simple prototype, Approach 1 best fits the requirements. The user specifie
 ## Open Questions
 
 ### Critical (Blocks Progress)
-- [ ] Which word list should we use? (SCOWL, enable, Wordle word list, or other?)
-- [ ] Which word frequency dataset? (Google Books Ngrams, SUBTLEX, or other?)
-- [ ] Should "pangrams" (words using all 7 letters) get a bonus like in Spelling Bee?
+- [x] Which word list should we use? **Use best available option (likely SCOWL or enable word list)**
+- [x] Which word frequency dataset? **Use best available option (likely SUBTLEX or combined frequency data)**
+- [x] Should "pangrams" (words using all 7 letters) get a bonus like in Spelling Bee? **YES - 10 point bonus**
 
 ### Important (Affects Design)
-- [ ] Should the game show the total number of possible words?
-- [ ] Should there be a maximum score display (sum of all possible words)?
-- [ ] How should the UI indicate word rarity visually? (color coding, stars, text label?)
+- [x] Should the game show the total number of possible words? **YES**
+- [x] Should there be a maximum score display (sum of all possible words)? **YES**
+- [x] How should the UI indicate word rarity visually? **Ephemeral congratulations message for rare words**
 - [ ] Should found words be displayed in any particular order? (alphabetical, by score, by time found?)
 - [ ] Should there be animations for correct/incorrect word submissions?
+- [ ] What defines a "rare" word for the congratulations message? (decile 8+, 9+, or 10 only?)
 
 ### Nice-to-Know (Optimization)
-- [ ] Should there be a "shuffle" button to rearrange outer letters?
+- [x] Should there be a "shuffle" button to rearrange outer letters? **YES (in addition to spacebar)**
 - [ ] Should there be any hints system? (e.g., show first letter of unfound words)
 - [ ] Should there be sound effects?
 - [ ] Should there be a "definition" lookup for found words?
@@ -246,8 +250,10 @@ For a simple prototype, Approach 1 best fits the requirements. The user specifie
 3. **Word Without Center Letter**: User tries "BOOK" when center letter is "A", word is rejected
 4. **Too Short Word**: User tries "CAT" (3 letters), word is rejected (minimum 4 letters)
 5. **Duplicate Word**: User enters "HELLO" twice, second attempt rejected with "already found" message
-6. **Rarity Scoring**: User enters common word "GOOD" (scores base points) vs rare word "QUIXOTIC" (scores base + high rarity bonus)
-7. **Letter Shuffle**: User presses spacebar, letter order changes but center letter remains visually distinct
+6. **Rarity Scoring**: User enters common word "GOOD" (scores base points) vs rare word "QUIXOTIC" (scores base + high rarity bonus + ephemeral congratulations message)
+6a. **Pangram Bonus**: User enters a word using all 7 letters, scores base + rarity + 10 point pangram bonus
+7. **Letter Shuffle (Spacebar)**: User presses spacebar, letter order changes but center letter remains visually distinct
+7a. **Letter Shuffle (Button)**: User clicks shuffle button, same effect as spacebar
 8. **Daily Puzzle Consistency**: Two users on the same day see identical 7-letter puzzle
 9. **Midnight Reset**: User plays puzzle, waits until midnight, sees new puzzle with reset score
 
@@ -331,8 +337,11 @@ For a simple prototype, Approach 1 best fits the requirements. The user specifie
   - Decile 2: +1 bonus
   - ...
   - Decile 10 (rarest): +10 bonus
-- **Total score** = base score + rarity bonus
+- **Pangram bonus**: +10 points for words using all 7 letters
+- **Total score** = base score + rarity bonus + pangram bonus (if applicable)
 - Example: "QUEEN" (5 letters, decile 8) = 5 + 8 = 13 points
+- Example: "TALKING" (7 letters, decile 5, pangram) = 7 + 5 + 10 = 22 points
+- **Rare word feedback**: When entering a rare word (high decile), show ephemeral congratulations message
 
 ### Daily Puzzle Generation
 - Use current date (YYYY-MM-DD) as seed
@@ -340,9 +349,14 @@ For a simple prototype, Approach 1 best fits the requirements. The user specifie
 - Reset at midnight local time
 - Players can only play current day's puzzle (no archive for prototype)
 
-### Open Design Decisions for User
-1. Should pangrams (words using all 7 letters) get a bonus?
-2. Should we show total possible words count and max score?
-3. How to visually indicate word rarity? (color code, badges, text?)
-4. Should there be a shuffle button in addition to spacebar shuffle?
-5. Which specific word list and frequency data source?
+### Design Decisions Summary
+1. ✅ Pangrams get +10 point bonus
+2. ✅ Show total possible words count and max score as progress indicators
+3. ✅ Rare words trigger ephemeral congratulations message (visual rarity indication)
+4. ✅ Include shuffle button in addition to spacebar shuffle
+5. ✅ Use best available word list and frequency data (SCOWL/enable + SUBTLEX or similar)
+
+### Remaining Open Questions
+1. What threshold defines a "rare" word for congratulations? (decile 8+, 9+, or 10 only?)
+2. Should found words be sorted? (alphabetical, by score, by time found?)
+3. Should there be animations for correct/incorrect submissions?
