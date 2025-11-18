@@ -13,11 +13,14 @@ export function FoundWords({ words }: FoundWordsProps) {
     );
   }
 
+  // Sort words alphabetically
+  const sortedWords = [...words].sort((a, b) => a.localeCompare(b));
+
   return (
     <div className="found-words">
       <div className="found-words-title">Found Words</div>
       <div className="found-words-list">
-        {words.map((word, index) => (
+        {sortedWords.map((word, index) => (
           <div key={index} className="found-word">
             {word.toUpperCase()}
           </div>

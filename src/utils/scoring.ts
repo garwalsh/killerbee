@@ -63,9 +63,9 @@ function calculateRarityBonus(
   const wordFreqs: Array<{ word: string; freq: number }> = allValidWords
     .map(w => ({
       word: w,
-      freq: (wordFrequency as Record<string, number>)[w] || 0,
+      freq: (wordFrequency as Record<string, number>)[w] || 999999,
     }))
-    .sort((a, b) => b.freq - a.freq); // Sort by frequency (high to low = common to rare)
+    .sort((a, b) => a.freq - b.freq); // Sort by frequency rank (low to high = common to rare)
 
   // Find this word's rank in the puzzle
   const wordRank = wordFreqs.findIndex(w => w.word === word);
@@ -79,8 +79,8 @@ function calculateRarityBonus(
   const totalWords = wordFreqs.length;
   const decile = Math.min(10, Math.floor((wordRank / totalWords) * 10) + 1);
 
-  // Invert decile for bonus: most common (decile 1) = 0 bonus, rarest (decile 10) = 10 bonus
-  const bonus = 10 - decile;
+  // Rarity bonus: most common (decile 1) = 0 bonus, rarest (decile 10) = 10 bonus
+  const bonus = decile - 1;
 
   return { decile, bonus };
 }

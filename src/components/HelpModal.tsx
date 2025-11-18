@@ -22,7 +22,7 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
           <ul>
             <li>Create words using the 7 letters</li>
             <li>Words must be at least 4 letters long</li>
-            <li>Words must include the center letter (purple with pink border)</li>
+            <li>Words must include the highlighted letter</li>
             <li>Letters can be used more than once</li>
           </ul>
         </div>
@@ -32,7 +32,7 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
           <ul>
             <li><strong>4-letter words:</strong> 1 point</li>
             <li><strong>5+ letter words:</strong> 1 point per letter</li>
-            <li><strong>Rarity bonus:</strong> 0-10 extra points based on how uncommon the word is</li>
+            <li><strong>Rarity bonus:</strong> 0-9 extra points based on how uncommon the word is (rare words get more points!)</li>
             <li><strong>Pangrams:</strong> +10 bonus points for using all 7 letters!</li>
           </ul>
         </div>
@@ -40,10 +40,10 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
         <div className="modal-section">
           <h3>Example</h3>
           <ul>
-            <li>"WORD" (4 letters, common) = 1 + 0 = <strong>1 point</strong></li>
-            <li>"WORLD" (5 letters, common) = 5 + 0 = <strong>5 points</strong></li>
-            <li>"WONDER" (6 letters, rare) = 6 + 8 = <strong>14 points</strong></li>
-            <li>"WORKING" (7 letters, pangram) = 7 + 3 + 10 = <strong>20 points</strong></li>
+            <li>"SOON" (4 letters, common) = 1 + 0 = <strong>1 point</strong></li>
+            <li>"STORE" (5 letters, common) = 5 + 0 = <strong>5 points</strong></li>
+            <li>"TENSOR" (6 letters, rare) = 6 + 8 = <strong>14 points</strong></li>
+            <li>"SENATOR" (7 letters, pangram) = 7 + 3 + 10 = <strong>20 points</strong></li>
           </ul>
         </div>
       </div>

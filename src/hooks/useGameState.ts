@@ -160,6 +160,16 @@ export function useGameState() {
     }
   }, [gameState.currentWord, gameState.puzzle, gameState.foundWords, showMessage]);
 
+  /**
+   * Reset the game progress (for testing)
+   */
+  const resetProgress = useCallback(() => {
+    const dateSeed = getTodayDateSeed();
+    localStorage.removeItem('killerbee-progress');
+    setGameState(initializeGame());
+    showMessage('success', 'Progress reset!');
+  }, [showMessage]);
+
   return {
     gameState,
     addLetter,
@@ -167,5 +177,6 @@ export function useGameState() {
     clearWord,
     shuffleLetters,
     submitWord,
+    resetProgress,
   };
 }

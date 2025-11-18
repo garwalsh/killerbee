@@ -1,5 +1,5 @@
 .current-word {
-  padding: 20px;
+  padding: 50px 20px 20px 20px;
   text-align: center;
 }
 
@@ -10,8 +10,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-secondary);
-  border: 3px solid var(--accent-primary);
   padding: 15px 20px;
   color: var(--text-primary);
   letter-spacing: 0.1em;
@@ -19,7 +17,26 @@
 
 .word-display .placeholder {
   color: var(--text-secondary);
-  font-size: 0.7rem;
+  font-size: 1.5rem;
+}
+
+.word-display .cursor {
+  display: inline-block;
+  width: 0.8em;
+  height: 1em;
+  background-color: var(--text-secondary);
+  margin-left: 0.15em;
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  50.01%, 100% {
+    opacity: 0;
+  }
 }
 
 @media (max-width: 480px) {
@@ -30,7 +47,7 @@
   }
 
   .word-display .placeholder {
-    font-size: 0.5rem;
+    font-size: 1rem;
   }
 }
 
@@ -42,6 +59,6 @@
   }
 
   .word-display .placeholder {
-    font-size: 0.8rem;
+    font-size: 2rem;
   }
 }

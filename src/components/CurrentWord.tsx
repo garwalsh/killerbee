@@ -8,7 +8,17 @@ export function CurrentWord({ word }: CurrentWordProps) {
   return (
     <div className="current-word">
       <div className="word-display">
-        {word.toUpperCase() || <span className="placeholder">Type or click letters</span>}
+        {word ? (
+          <>
+            <span>{word.toUpperCase()}</span>
+            <span className="cursor"></span>
+          </>
+        ) : (
+          <>
+            <span className="placeholder">Type or click</span>
+            <span className="cursor"></span>
+          </>
+        )}
       </div>
     </div>
   );

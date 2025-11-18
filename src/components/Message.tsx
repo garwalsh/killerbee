@@ -6,13 +6,17 @@ interface MessageProps {
 }
 
 export function Message({ message }: MessageProps) {
-  if (!message) return null;
+  if (!message) {
+    return <div className="message-container" />;
+  }
 
   const messageClass = `message message-${message.type}`;
 
   return (
-    <div className={messageClass}>
-      {message.text}
+    <div className="message-container">
+      <div className={messageClass}>
+        {message.text}
+      </div>
     </div>
   );
 }

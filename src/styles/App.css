@@ -14,15 +14,37 @@
 }
 
 .help-button {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  width: 24px;
+  height: 24px;
+  background-color: var(--accent-primary);
+  border: 2px solid var(--accent-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.help-button:hover {
+  background-color: var(--accent-secondary);
+  transform: scale(1.1);
+}
+
+.reset-button {
   position: absolute;
   top: 20px;
-  right: 20px;
+  left: 20px;
   font-family: 'Press Start 2P', cursive;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   width: 40px;
   height: 40px;
-  background-color: var(--accent-primary);
-  border: 3px solid var(--accent-secondary);
+  background-color: var(--error);
+  border: 3px solid var(--text-secondary);
   color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -31,8 +53,8 @@
   justify-content: center;
 }
 
-.help-button:hover {
-  background-color: var(--accent-secondary);
+.reset-button:hover {
+  background-color: #d32f2f;
   transform: scale(1.1);
 }
 
@@ -56,7 +78,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
+  position: relative;
 }
 
 .game-controls {
@@ -114,11 +137,10 @@
   }
 
   .help-button {
-    top: 15px;
-    right: 15px;
-    width: 35px;
-    height: 35px;
-    font-size: 1rem;
+    width: 20px;
+    height: 20px;
+    font-size: 0.5rem;
+    margin-left: 8px;
   }
 
   .app-title {
@@ -155,11 +177,10 @@
   }
 
   .help-button {
-    top: 25px;
-    right: 25px;
-    width: 45px;
-    height: 45px;
-    font-size: 1.3rem;
+    width: 28px;
+    height: 28px;
+    font-size: 0.7rem;
+    margin-left: 12px;
   }
 
   .app-title {

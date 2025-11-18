@@ -7,6 +7,7 @@ import seedrandom from 'seedrandom';
 import type { Puzzle, WordScore } from '../types/game';
 import { calculateWordScore } from './scoring';
 import wordList from '../data/words.json';
+import wordFrequency from '../data/wordFrequency.json';
 
 // Curated letter sets that produce good puzzles
 const GOOD_LETTER_SETS = [
@@ -42,11 +43,14 @@ export function generatePuzzle(dateSeed: string): Puzzle {
 /**
  * Find all valid words that can be made from the given letters
  * Must include the center letter and be at least 4 characters
+ * Limited to the 100 most common words for reasonable puzzle difficulty
  */
 function findValidWords(letters: string[], centerLetter: string): string[] {
   const letterSet = new Set(letters);
+  const freqMap = wordFrequency as Record<string, number>;
 
-  return wordList.filter(word => {
+  // Find all matching words
+  const allValidWords = wordList.filter(word => {
     // Must be at least 4 letters
     if (word.length < 4) return false;
 
@@ -60,6 +64,55 @@ function findValidWords(letters: string[], centerLetter: string): string[] {
 
     return true;
   });
+
+  // Sort by frequency (most common first) and take top 100
+  const sortedWords = allValidWords
+    .map(word => ({
+      word,
+      freq: freqMap[word] || 999999, // Unknown words get high rank (rare)
+    }))
+    .sort((a, b) => a.freq - b.freq) // Lower frequency rank = more common
+    .slice(0, 100) // Take only the 100 most common
+    .map(item => item.word);
+
+  // Auto-include common variants (plurals, -ed, -ing, etc.) immediately after base words
+  // This ensures variants get similar rarity scores (adjacent in the list)
+  const expandedWords: string[] = [];
+
+  for (const word of sortedWords) {
+    expandedWords.push(word);
+
+    // Try common suffixes
+    const variants = [
+      word + 's',      // plural: word -> words
+      word + 'es',     // plural: box -> boxes
+      word + 'ed',     // past tense: walk -> walked
+      word + 'ing',    // gerund: walk -> walking
+      word + 'er',     // comparative: fast -> faster
+      word + 'est',    // superlative: fast -> fastest
+      word + 'ly',     // adverb: quick -> quickly
+    ];
+
+    // If word ends in 'e', try dropping it for -ed/-ing
+    if (word.endsWith('e')) {
+      variants.push(word.slice(0, -1) + 'ed');   // hope -> hoped
+      variants.push(word.slice(0, -1) + 'ing');  // hope -> hoping
+    }
+
+    // If word ends in 'y', try -ies plural
+    if (word.endsWith('y') && word.length > 3) {
+      variants.push(word.slice(0, -1) + 'ies'); // story -> stories
+    }
+
+    // Add valid variants immediately after the base word
+    for (const variant of variants) {
+      if (allValidWords.includes(variant)) {
+        expandedWords.push(variant);
+      }
+    }
+  }
+
+  return expandedWords;
 }
 
 /**

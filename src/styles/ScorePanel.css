@@ -2,7 +2,7 @@
   display: flex;
   gap: 30px;
   justify-content: center;
-  padding: 20px;
+  padding: 30px 20px;
   background-color: var(--bg-secondary);
   border-bottom: 3px solid var(--accent-primary);
 }
@@ -44,7 +44,7 @@
   .score-panel {
     flex-direction: column;
     gap: 15px;
-    padding: 15px;
+    padding: 25px 15px;
   }
 
   .score-label {
@@ -65,7 +65,7 @@
 @media (min-width: 768px) {
   .score-panel {
     gap: 50px;
-    padding: 25px;
+    padding: 35px 25px;
   }
 
   .score-label {

@@ -17,6 +17,7 @@ function App() {
     clearWord,
     shuffleLetters,
     submitWord,
+    resetProgress,
   } = useGameState();
 
   const [isHelpOpen, setIsHelpOpen] = useState(false);
@@ -70,14 +71,23 @@ function App() {
     <div className="app">
       <header className="app-header">
         <button
-          className="help-button"
-          onClick={() => setIsHelpOpen(true)}
-          aria-label="Help"
+          className="reset-button"
+          onClick={resetProgress}
+          aria-label="Reset Progress"
         >
-          ?
+          ↻
         </button>
         <h1 className="app-title">Killer Bee</h1>
-        <p className="app-subtitle">Daily Word Puzzle</p>
+        <p className="app-subtitle">
+          Daily Word Puzzle
+          <button
+            className="help-button"
+            onClick={() => setIsHelpOpen(true)}
+            aria-label="Help"
+          >
+            ?
+          </button>
+        </p>
       </header>
 
       <ScorePanel
@@ -87,9 +97,8 @@ function App() {
         totalWords={gameState.puzzle.totalWords}
       />
 
-      <Message message={gameState.message} />
-
       <div className="game-area">
+        <Message message={gameState.message} />
         <CurrentWord word={gameState.currentWord} />
 
         <LetterRow
