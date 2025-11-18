@@ -130,7 +130,8 @@ export function useGameState() {
 
     if (!validation.valid) {
       showMessage('error', validation.reason || 'Invalid word');
-      // Shake animation could be triggered here via CSS class
+      // Clear the current word on error
+      setGameState(prev => ({ ...prev, currentWord: '' }));
       return;
     }
 
