@@ -35,12 +35,41 @@ The game uses a **React hooks-based architecture** with centralized state manage
 
 ### Puzzle Generation System
 
-**Daily Deterministic Puzzles** (`src/utils/puzzleGenerator.ts`):
-- Uses `seedrandom` with YYYY-MM-DD date seed for reproducibility
-- Selects from 10 curated letter sets (high-frequency vowels/consonants)
-- Finds valid words that include center letter, 4+ chars
-- Limits to **100 most common words** by frequency rank
+**Strategy Pattern Architecture** (`src/utils/puzzleGenerator.ts` + `src/utils/strategies/`):
+
+The puzzle generation system uses a **strategy pattern** to support multiple generation methods. Each strategy implements the `PuzzleStrategy` interface and defines:
+1. How to generate letter sets (7 letters + 1 required center letter)
+2. How to find valid words from those letters
+
+**Available Strategies**:
+
+#### 1. Curated Sets Strategy (default)
+**File**: `src/utils/strategies/CuratedSetsStrategy.ts`
+
+How it works:
+- Uses 10 hand-picked letter combinations (high-frequency vowels/consonants)
+- Filters word list by puzzle letters + center letter requirement (4+ chars)
+- Sorts by frequency and takes **top 100 most common words**
 - **Auto-expands word variants**: Immediately after each base word, includes valid variants (plurals, -ed, -ing, -er, -est, -ly) so they get similar rarity scores
+- Produces puzzles with ~100-150 words depending on variant expansion
+
+**Switching Strategies**:
+
+For **local testing**, add URL parameter:
+```
+http://localhost:5173/?strategy=curated
+```
+
+For **deployment**, set environment variable in `.env`:
+```
+VITE_PUZZLE_STRATEGY=curated
+```
+
+Priority: URL parameter > Environment variable > Default (curated)
+
+**Daily Deterministic Puzzles**:
+- Uses `seedrandom` with YYYY-MM-DD date seed for reproducibility
+- Same date always produces same puzzle (across all users)
 - Calculates all scoring up-front
 
 ### Scoring System
@@ -125,3 +154,63 @@ To modify word list:
 1. Edit `scripts/processWordData.ts`
 2. Run `npm run process-words`
 3. Rebuild/reload dev server
+
+## Creating New Puzzle Strategies
+
+To add a new puzzle generation method:
+
+**1. Create strategy file** in `src/utils/strategies/`:
+```typescript
+// src/utils/strategies/MyNewStrategy.ts
+import type { PuzzleStrategy } from './PuzzleStrategy';
+import wordList from '../../data/words.json';
+import wordFrequency from '../../data/wordFrequency.json';
+
+export class MyNewStrategy implements PuzzleStrategy {
+  readonly name = 'mynew';
+  readonly description = 'Brief description of your strategy';
+
+  generateLetterSet(rng: () => number): { letters: string[]; center: string } {
+    // Your logic to generate 7 letters and pick a center letter
+    // Use rng() for any randomness to ensure determinism
+    return { letters: [...], center: '...' };
+  }
+
+  findValidWords(letters: string[], centerLetter: string): string[] {
+    // Your logic to find valid words
+    // Should return words sorted by desired difficulty
+    return [...];
+  }
+}
+```
+
+**2. Register in `puzzleGenerator.ts`**:
+```typescript
+import { MyNewStrategy } from './strategies/MyNewStrategy';
+
+// In getActiveStrategy():
+switch (strategyName) {
+  case 'curated':
+    return new CuratedSetsStrategy();
+  case 'mynew':
+    return new MyNewStrategy();
+  // ...
+}
+```
+
+**3. Update `.env.example`**:
+```
+# Available strategies: curated, mynew
+VITE_PUZZLE_STRATEGY=curated
+```
+
+**4. Test locally**:
+```
+http://localhost:5173/?strategy=mynew
+```
+
+**Key Requirements**:
+- Must implement `PuzzleStrategy` interface
+- Use the provided `rng()` function for any randomness (ensures same-date reproducibility)
+- Return words in desired difficulty order (typically frequency-sorted)
+- Keep strategies self-contained (each has its own word filtering logic)
