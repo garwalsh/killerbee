@@ -20,12 +20,21 @@ function initializeGame(): GameState {
   // Try to load saved progress for today and this strategy
   const savedProgress = loadProgress(dateSeed, strategyName);
 
+  // Build initial order with center letter at index 3 (middle position)
+  const centerIndex = puzzle.letters.indexOf(puzzle.centerLetter);
+  const initialOrder = [0, 1, 2, 3, 4, 5, 6];
+
+  // Swap center letter to middle position if not already there
+  if (centerIndex !== 3) {
+    [initialOrder[centerIndex], initialOrder[3]] = [initialOrder[3], initialOrder[centerIndex]];
+  }
+
   return {
     puzzle,
     foundWords: savedProgress?.foundWords || [],
     currentWord: '',
     score: savedProgress?.score || 0,
-    shuffledOrder: [0, 1, 2, 3, 4, 5, 6],
+    shuffledOrder: initialOrder,
     message: null,
   };
 }
@@ -76,16 +85,32 @@ export function useGameState() {
   }, []);
 
   /**
-   * Shuffle the letter display order
+   * Shuffle the letter display order (keeping center letter at position 3)
    */
   const shuffleLetters = useCallback(() => {
     setGameState(prev => {
-      const newOrder = [...prev.shuffledOrder];
-      // Fisher-Yates shuffle
-      for (let i = newOrder.length - 1; i > 0; i--) {
+      // Extract center letter (at index 3) and outer letters
+      const centerValue = prev.shuffledOrder[3];
+      const outerIndices = [0, 1, 2, 4, 5, 6];
+      const outerValues = outerIndices.map(i => prev.shuffledOrder[i]);
+
+      // Fisher-Yates shuffle the outer letters only
+      for (let i = outerValues.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [newOrder[i], newOrder[j]] = [newOrder[j], newOrder[i]];
+        [outerValues[i], outerValues[j]] = [outerValues[j], outerValues[i]];
       }
+
+      // Rebuild the order with center fixed at position 3
+      const newOrder = [
+        outerValues[0],
+        outerValues[1],
+        outerValues[2],
+        centerValue,
+        outerValues[3],
+        outerValues[4],
+        outerValues[5],
+      ];
+
       return {
         ...prev,
         shuffledOrder: newOrder,
