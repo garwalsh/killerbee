@@ -3,10 +3,18 @@ import '../styles/HelpModal.css';
 interface HelpModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onReset: () => void;
 }
 
-export function HelpModal({ isOpen, onClose }: HelpModalProps) {
+export function HelpModal({ isOpen, onClose, onReset }: HelpModalProps) {
   if (!isOpen) return null;
+
+  const handleReset = () => {
+    if (confirm('Are you sure you want to reset your progress? This will clear all found words and your score.')) {
+      onReset();
+      onClose();
+    }
+  };
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -45,6 +53,12 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
             <li>"TENSOR" (6 letters, rare) = 6 + 8 = <strong>14 points</strong></li>
             <li>"SENATOR" (7 letters, pangram) = 7 + 3 + 10 = <strong>20 points</strong></li>
           </ul>
+        </div>
+
+        <div className="modal-footer">
+          <button className="reset-button" onClick={handleReset}>
+            RESET PROGRESS
+          </button>
         </div>
       </div>
     </div>

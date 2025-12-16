@@ -125,7 +125,11 @@ function App() {
         <p>Press SPACE to shuffle • ENTER to submit • ESC to clear</p>
       </footer>
 
-      <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
+      <HelpModal
+        isOpen={isHelpOpen}
+        onClose={() => setIsHelpOpen(false)}
+        onReset={resetProgress}
+      />
     </div>
   );
 }

@@ -88,6 +88,37 @@
   color: var(--rare);
 }
 
+.modal-footer {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid var(--accent-secondary);
+  text-align: center;
+}
+
+.modal-footer .reset-button {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.7rem;
+  background-color: var(--error);
+  color: var(--text-primary);
+  border: 3px solid var(--text-primary);
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.modal-footer .reset-button:hover {
+  background-color: var(--text-primary);
+  color: var(--error);
+  border-color: var(--error);
+  transform: scale(1.05);
+}
+
+.modal-footer .reset-button:active {
+  transform: scale(0.98);
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
