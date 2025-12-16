@@ -4,7 +4,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import type { GameState, Message, MessageType } from '../types/game';
-import { generatePuzzle, getTodayDateSeed } from '../utils/puzzleGenerator';
+import { generatePuzzle, getTodayDateSeed, getActiveStrategyName } from '../utils/puzzleGenerator';
 import { validateWord } from '../utils/wordValidator';
 import { isRareWord, getRareWordMessage } from '../utils/scoring';
 import { loadProgress, saveProgress } from '../utils/storage';
@@ -14,10 +14,11 @@ import { loadProgress, saveProgress } from '../utils/storage';
  */
 function initializeGame(): GameState {
   const dateSeed = getTodayDateSeed();
+  const strategyName = getActiveStrategyName();
   const puzzle = generatePuzzle(dateSeed);
 
-  // Try to load saved progress for today
-  const savedProgress = loadProgress(dateSeed);
+  // Try to load saved progress for today and this strategy
+  const savedProgress = loadProgress(dateSeed, strategyName);
 
   return {
     puzzle,
@@ -39,7 +40,8 @@ export function useGameState() {
   useEffect(() => {
     if (gameState.foundWords.length > 0) {
       const dateSeed = getTodayDateSeed();
-      saveProgress(dateSeed, gameState.foundWords, gameState.score);
+      const strategyName = getActiveStrategyName();
+      saveProgress(dateSeed, strategyName, gameState.foundWords, gameState.score);
     }
   }, [gameState.foundWords, gameState.score]);
 

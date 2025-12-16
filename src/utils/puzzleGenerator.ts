@@ -16,10 +16,10 @@ import { HistoricStrategy } from './strategies/HistoricStrategy';
 import { calculateWordScore } from './scoring';
 
 /**
- * Get the active puzzle generation strategy
+ * Get the active strategy name
  * Priority: URL parameter > Environment variable > Default (curated)
  */
-function getActiveStrategy(): PuzzleStrategy {
+export function getActiveStrategyName(): string {
   // Check URL parameter first (for local testing)
   const params = new URLSearchParams(window.location.search);
   const urlStrategy = params.get('strategy');
@@ -27,7 +27,15 @@ function getActiveStrategy(): PuzzleStrategy {
   // Fall back to environment variable (for deployment)
   const envStrategy = import.meta.env.VITE_PUZZLE_STRATEGY || 'curated';
 
-  const strategyName = urlStrategy || envStrategy;
+  return urlStrategy || envStrategy;
+}
+
+/**
+ * Get the active puzzle generation strategy
+ * Priority: URL parameter > Environment variable > Default (curated)
+ */
+function getActiveStrategy(): PuzzleStrategy {
+  const strategyName = getActiveStrategyName();
 
   // Return appropriate strategy instance
   switch (strategyName) {
