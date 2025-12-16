@@ -12,6 +12,7 @@ import seedrandom from 'seedrandom';
 import type { Puzzle, WordScore } from '../types/game';
 import type { PuzzleStrategy } from './strategies/PuzzleStrategy';
 import { CuratedSetsStrategy } from './strategies/CuratedSetsStrategy';
+import { HistoricStrategy } from './strategies/HistoricStrategy';
 import { calculateWordScore } from './scoring';
 
 /**
@@ -32,9 +33,8 @@ function getActiveStrategy(): PuzzleStrategy {
   switch (strategyName) {
     case 'curated':
       return new CuratedSetsStrategy();
-    // Future strategies can be added here:
-    // case 'random':
-    //   return new RandomStrategy();
+    case 'historic':
+      return new HistoricStrategy();
     default:
       console.warn(`Unknown strategy "${strategyName}", falling back to curated`);
       return new CuratedSetsStrategy();

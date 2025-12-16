@@ -1,0 +1,49 @@
+{
+  "version": "1.0",
+  "source": "NYT Spelling Bee",
+  "description": "Historic Spelling Bee puzzles with pre-ordered word lists. Word order represents difficulty (first = rarest, last = most common).",
+  "puzzles": [
+    {
+      "date": "2024-12-16",
+      "letters": ["i", "a", "f", "g", "n", "u", "w"],
+      "center": "i",
+      "words": [
+        "guffawing",
+        "again",
+        "aging",
+        "angina",
+        "awing",
+        "awning",
+        "fanning",
+        "fawning",
+        "fifing",
+        "fining",
+        "fungi",
+        "gagging",
+        "gain",
+        "gaining",
+        "ganging",
+        "gauging",
+        "gigging",
+        "ginning",
+        "gnawing",
+        "gunning",
+        "iguana",
+        "inning",
+        "nagging",
+        "naif",
+        "wagging",
+        "waging",
+        "waif",
+        "waning",
+        "wigging",
+        "wigwag",
+        "wigwagging",
+        "wing",
+        "winging",
+        "wining",
+        "winning"
+      ]
+    }
+  ]
+}

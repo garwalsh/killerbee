@@ -56,16 +56,35 @@ How it works:
 - **Auto-expands word variants**: Immediately after each base word, includes valid variants (plurals, -ed, -ing, -er, -est, -ly) so they get similar rarity scores
 - Word count varies by letter combination (typically 50-150 words after expansion)
 
+#### 2. Historic Strategy
+**File**: `src/utils/strategies/HistoricStrategy.ts`
+
+How it works:
+- Uses **real puzzles from NYT Spelling Bee** with their actual word lists
+- Letters and word lists stored in `src/data/historicPuzzles.json`
+- Words pre-ordered by original game's difficulty (position = rarity)
+- **Dynamic rarity grouping**: Splits word list into 5 equal groups
+  - Group 1 (first ~20% of words): Rarity score 10 (rarest)
+  - Group 2: Rarity score 7
+  - Group 3: Rarity score 5
+  - Group 4: Rarity score 3
+  - Group 5 (last ~20% of words): Rarity score 1 (most common)
+- Word count varies per historic puzzle (typically 20-50 words)
+- Rotates through available puzzles using date seed
+
 **Switching Strategies**:
 
 For **local testing**, add URL parameter:
 ```
 http://localhost:5173/?strategy=curated
+http://localhost:5173/?strategy=historic
 ```
 
 For **deployment**, set environment variable in `.env`:
 ```
 VITE_PUZZLE_STRATEGY=curated
+# or
+VITE_PUZZLE_STRATEGY=historic
 ```
 
 Priority: URL parameter > Environment variable > Default (curated)
@@ -195,6 +214,8 @@ import { MyNewStrategy } from './strategies/MyNewStrategy';
 switch (strategyName) {
   case 'curated':
     return new CuratedSetsStrategy();
+  case 'historic':
+    return new HistoricStrategy();
   case 'mynew':
     return new MyNewStrategy();
   // ...
@@ -203,7 +224,7 @@ switch (strategyName) {
 
 **3. Update `.env.example`**:
 ```
-# Available strategies: curated, mynew
+# Available strategies: curated, historic, mynew
 VITE_PUZZLE_STRATEGY=curated
 ```
 
