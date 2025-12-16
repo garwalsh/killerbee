@@ -50,39 +50,63 @@ function isPangramWord(word: string, puzzleLetters: string[]): boolean {
 }
 
 /**
- * Calculate rarity bonus based on word frequency decile
+ * Calculate rarity bonus based on word position or frequency
+ *
+ * For historic puzzles: Uses position in the pre-ordered list (position = rarity)
+ * For other strategies: Uses word frequency data to determine rarity
+ *
  * @param word - The word to check
- * @param allValidWords - All valid words in this puzzle
+ * @param allValidWords - All valid words in this puzzle (in order)
  * @returns Decile (1-10) and bonus (0-10)
  */
 function calculateRarityBonus(
   word: string,
   allValidWords: string[]
 ): { decile: number; bonus: number } {
-  // Get frequency ranks for all valid words in this puzzle
-  const wordFreqs: Array<{ word: string; freq: number }> = allValidWords
-    .map(w => ({
-      word: w,
-      freq: (wordFrequency as Record<string, number>)[w] || 999999,
-    }))
-    .sort((a, b) => a.freq - b.freq); // Sort by frequency rank (low to high = common to rare)
+  // Find this word's position in the original list
+  const wordIndex = allValidWords.findIndex(w => w === word);
 
-  // Find this word's rank in the puzzle
-  const wordRank = wordFreqs.findIndex(w => w.word === word);
-
-  if (wordRank === -1) {
+  if (wordIndex === -1) {
     // Word not found (shouldn't happen), default to middle decile
     return { decile: 5, bonus: 5 };
   }
 
-  // Calculate decile (1-10)
-  const totalWords = wordFreqs.length;
-  const decile = Math.min(10, Math.floor((wordRank / totalWords) * 10) + 1);
+  // Check if we should use position-based scoring (historic strategy)
+  // If most words don't have frequency data, assume it's a historic puzzle
+  const wordsWithFreq = allValidWords.filter(w =>
+    (wordFrequency as Record<string, number>)[w] !== undefined
+  );
+  const usePositionBased = wordsWithFreq.length < allValidWords.length * 0.5;
 
-  // Rarity bonus: most common (decile 1) = 0 bonus, rarest (decile 10) = 10 bonus
-  const bonus = decile - 1;
+  if (usePositionBased) {
+    // Position-based scoring for historic puzzles
+    // Split into 5 groups, assign rarity scores: 10, 7, 5, 3, 1
+    const totalWords = allValidWords.length;
+    const groupSize = Math.ceil(totalWords / 5);
+    const groupIndex = Math.floor(wordIndex / groupSize);
+    const rarityScores = [10, 7, 5, 3, 1];
+    const bonus = rarityScores[Math.min(groupIndex, 4)];
 
-  return { decile, bonus };
+    // Convert to decile for consistency (bonus + 1)
+    const decile = bonus === 10 ? 10 : Math.ceil((bonus / 10) * 10);
+
+    return { decile, bonus };
+  } else {
+    // Frequency-based scoring for curated strategy
+    const wordFreqs: Array<{ word: string; freq: number }> = allValidWords
+      .map(w => ({
+        word: w,
+        freq: (wordFrequency as Record<string, number>)[w] || 999999,
+      }))
+      .sort((a, b) => a.freq - b.freq); // Sort by frequency rank (low to high = common to rare)
+
+    const wordRank = wordFreqs.findIndex(w => w.word === word);
+    const totalWords = wordFreqs.length;
+    const decile = Math.min(10, Math.floor((wordRank / totalWords) * 10) + 1);
+    const bonus = decile - 1;
+
+    return { decile, bonus };
+  }
 }
 
 /**
