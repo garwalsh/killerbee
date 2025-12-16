@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import '../styles/HelpModal.css';
 
 interface HelpModalProps {
@@ -7,6 +8,19 @@ interface HelpModalProps {
 }
 
 export function HelpModal({ isOpen, onClose, onReset }: HelpModalProps) {
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const handleReset = () => {
