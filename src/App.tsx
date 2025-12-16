@@ -84,7 +84,9 @@ function App() {
         >
           ↻
         </button>
-        <h1 className="app-title">Killer Bee</h1>
+        <h1 className="app-title">
+          Killer <img src="/bee.png" alt="bee" className="bee-icon" /> Bee
+        </h1>
         <p className="app-subtitle">
           Daily Word Puzzle
           <button

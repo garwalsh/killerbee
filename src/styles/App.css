@@ -65,6 +65,18 @@
   margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+.bee-icon {
+  height: 2em;
+  width: auto;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .app-subtitle {
