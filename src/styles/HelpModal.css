@@ -11,6 +11,7 @@
   z-index: 1000;
   padding: 20px;
   animation: fadeIn 0.2s ease;
+  overflow: hidden;
 }
 
 .modal-content {
@@ -20,8 +21,11 @@
   max-width: 600px;
   max-height: 90vh;
   overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
   animation: slideIn 0.3s ease;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 .modal-close {
