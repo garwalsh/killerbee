@@ -122,13 +122,16 @@ function App() {
       <FoundWords words={gameState.foundWords} />
 
       <footer className="app-footer">
-        <p>Press SPACE to shuffle • ENTER to submit • ESC to clear</p>
+        <p>Press SPACE to shuffle • ENTER to submit • ESC to clear • <span className="reset-link" onClick={() => {
+          if (confirm('Are you sure you want to reset your progress? This will clear all found words and your score.')) {
+            resetProgress();
+          }
+        }}>CLICK to reset</span></p>
       </footer>
 
       <HelpModal
         isOpen={isHelpOpen}
         onClose={() => setIsHelpOpen(false)}
-        onReset={resetProgress}
       />
     </div>
   );

@@ -131,6 +131,20 @@
   color: var(--text-secondary);
 }
 
+.reset-link {
+  color: #FFD700;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.reset-link:hover {
+  color: #FFA500;
+}
+
+.reset-link:active {
+  color: #FF8C00;
+}
+
 @media (max-width: 480px) {
   .app-header {
     padding: 20px 15px;

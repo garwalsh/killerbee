@@ -166,7 +166,8 @@ export function useGameState() {
    * Reset the game progress (for testing)
    */
   const resetProgress = useCallback(() => {
-    localStorage.removeItem('killerbee-progress');
+    const strategyName = getActiveStrategyName();
+    localStorage.removeItem(`killerbee-progress-${strategyName}`);
     setGameState(initializeGame());
     showMessage('success', 'Progress reset!');
   }, [showMessage]);
