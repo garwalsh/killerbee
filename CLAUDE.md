@@ -47,11 +47,14 @@ The puzzle generation system uses a **strategy pattern** to support multiple gen
 **File**: `src/utils/strategies/CuratedSetsStrategy.ts`
 
 How it works:
-- Uses 10 hand-picked letter combinations (high-frequency vowels/consonants)
+- **Generates 7 random letters** with constraints:
+  - No duplicate letters
+  - At least one vowel guaranteed
+  - Prefers vowels as center letter (70% probability) for better word formation
 - Filters word list by puzzle letters + center letter requirement (4+ chars)
 - Sorts by frequency and takes **top 100 most common words**
 - **Auto-expands word variants**: Immediately after each base word, includes valid variants (plurals, -ed, -ing, -er, -est, -ly) so they get similar rarity scores
-- Produces puzzles with ~100-150 words depending on variant expansion
+- Word count varies by letter combination (typically 50-150 words after expansion)
 
 **Switching Strategies**:
 

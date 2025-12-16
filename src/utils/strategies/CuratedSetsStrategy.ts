@@ -1,8 +1,10 @@
 /**
  * Curated Letter Sets Strategy
  *
- * Uses a hand-picked list of high-quality letter combinations that produce
- * good puzzles with many common words.
+ * Generates random 7-letter combinations with constraints:
+ * - 7 unique letters (no repeats)
+ * - At least one vowel
+ * - Uses seeded RNG for daily determinism
  *
  * Word selection:
  * - Filters by puzzle letters + center letter requirement
@@ -16,28 +18,50 @@ import type { PuzzleStrategy } from './PuzzleStrategy';
 import wordList from '../../data/words.json';
 import wordFrequency from '../../data/wordFrequency.json';
 
-// Curated letter sets that produce good puzzles
-const GOOD_LETTER_SETS = [
-  { letters: ['a', 'e', 'i', 'n', 'r', 's', 't'], center: 'a' },
-  { letters: ['a', 'e', 'r', 's', 't', 'l', 'n'], center: 'e' },
-  { letters: ['a', 'e', 'o', 'r', 't', 'n', 's'], center: 'o' },
-  { letters: ['a', 'i', 'o', 'n', 's', 't', 'r'], center: 'i' },
-  { letters: ['e', 'a', 'r', 'l', 't', 's', 'n'], center: 'r' },
-  { letters: ['a', 'e', 'i', 'l', 't', 's', 'n'], center: 't' },
-  { letters: ['a', 'e', 'o', 'n', 'd', 'r', 's'], center: 'n' },
-  { letters: ['a', 'e', 'i', 'r', 's', 'd', 'n'], center: 's' },
-  { letters: ['a', 'o', 'e', 'l', 'r', 't', 's'], center: 'l' },
-  { letters: ['a', 'e', 'i', 'g', 'n', 'r', 't'], center: 'g' },
-];
+const VOWELS = ['a', 'e', 'i', 'o', 'u'];
+const ALL_LETTERS = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
 export class CuratedSetsStrategy implements PuzzleStrategy {
   readonly name = 'curated';
-  readonly description = 'Uses hand-picked letter sets with high word coverage';
+  readonly description = 'Generates random 7 letters with at least one vowel';
 
   generateLetterSet(rng: () => number): { letters: string[]; center: string } {
-    // Pick a letter set from the curated list using the RNG
-    const letterSetIndex = Math.floor(rng() * GOOD_LETTER_SETS.length);
-    const { letters, center } = GOOD_LETTER_SETS[letterSetIndex];
+    let letters: string[] = [];
+    let hasVowel = false;
+
+    // Generate 7 unique random letters, ensuring at least one vowel
+    const availableLetters = [...ALL_LETTERS];
+
+    while (letters.length < 7) {
+      const index = Math.floor(rng() * availableLetters.length);
+      const letter = availableLetters[index];
+
+      letters.push(letter);
+      availableLetters.splice(index, 1); // Remove to prevent duplicates
+
+      if (VOWELS.includes(letter)) {
+        hasVowel = true;
+      }
+    }
+
+    // If no vowel was selected, replace a random consonant with a random vowel
+    if (!hasVowel) {
+      const consonantIndex = Math.floor(rng() * 7);
+      const vowelIndex = Math.floor(rng() * VOWELS.length);
+      letters[consonantIndex] = VOWELS[vowelIndex];
+    }
+
+    // Pick a random letter as the center (prefer vowels for better word formation)
+    const vowelsInSet = letters.filter(l => VOWELS.includes(l));
+    let center: string;
+
+    if (vowelsInSet.length > 0 && rng() > 0.3) {
+      // 70% chance to pick a vowel as center if available
+      center = vowelsInSet[Math.floor(rng() * vowelsInSet.length)];
+    } else {
+      // Otherwise pick any letter
+      center = letters[Math.floor(rng() * letters.length)];
+    }
 
     return { letters, center };
   }
