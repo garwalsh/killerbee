@@ -1,3 +1,7 @@
+/**
+ * Component for displaying the score progress
+ */
+
 import '../styles/ScorePanel.css';
 
 interface ScorePanelProps {
@@ -7,6 +11,9 @@ interface ScorePanelProps {
   totalWords: number;
 }
 
+/**
+ * Displays current score, maximum possible score, and progress bar
+ */
 export function ScorePanel({ score, maxScore }: ScorePanelProps) {
   const progress = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
 

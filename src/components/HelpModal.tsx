@@ -1,3 +1,7 @@
+/**
+ * Component for the help/instructions modal
+ */
+
 import '../styles/HelpModal.css';
 
 interface HelpModalProps {
@@ -5,6 +9,10 @@ interface HelpModalProps {
   onClose: () => void;
 }
 
+/**
+ * Modal displaying game rules, scoring system, and examples
+ * Dismissable by clicking outside or the close button
+ */
 export function HelpModal({ isOpen, onClose }: HelpModalProps) {
   if (!isOpen) return null;
 

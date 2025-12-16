@@ -128,27 +128,29 @@ Priority: URL parameter > Environment variable > Default (curated)
 
 **Atomic components** in `src/components/`:
 - `LetterTile.tsx` - Individual clickable letter buttons
-- `LetterRow.tsx` - Arranges tiles (6 outer + 1 center)
-- `CurrentWord.tsx` - Display typed word with backspace/clear
-- `ShuffleButton.tsx` - Circular arrows icon to shuffle letters
-- `FoundWords.tsx` - Scrollable list of discovered words
-- `ScorePanel.tsx` - Current score / max possible score
+- `LetterRow.tsx` - Arranges tiles in row (center letter always at index 3)
+- `CurrentWord.tsx` - Display typed word with blinking cursor
+- `ShuffleButton.tsx` - Button to shuffle outer 6 letters (center stays fixed)
+- `FoundWords.tsx` - Scrollable alphabetically-sorted list of discovered words
+- `ScorePanel.tsx` - Current score / max possible score with progress bar
 - `Message.tsx` - Temporary feedback (success/error/rare/pangram)
-- `HelpModal.tsx` - Game instructions overlay
+- `HelpModal.tsx` - Game instructions modal with rules, scoring, and examples
 
 **Main App** (`src/App.tsx`):
 - Integrates all components
-- Keyboard event handling (letters, Enter, Backspace, Space to shuffle)
+- Keyboard event handling (letters, Enter, Backspace, Esc to clear, Space to shuffle)
+- Reset progress link in footer with confirmation dialog
+- Help modal toggle button
 - Calls `useGameState` hook for state management
 
 ### Storage & Persistence
 
 **localStorage Integration** (`src/utils/storage.ts`):
-- Key format: `killerbee-progress` (single key stores all progress)
-- Stores: `{ dateSeed, foundWords[], score }`
+- Key format: `killerbee-progress-{strategyName}` (strategy-specific to prevent cross-contamination)
+- Stores: `{ dateSeed, strategy, foundWords[], score, lastPlayed }`
 - Auto-saves on every word found
-- Auto-loads on game initialization
-- Reset button clears localStorage for testing
+- Auto-loads on game initialization (only if date and strategy match)
+- Reset link in footer clears localStorage for current strategy
 
 ## Technology Stack
 
@@ -169,13 +171,22 @@ Priority: URL parameter > Environment variable > Default (curated)
 
 To test different puzzles:
 1. Change date in `getTodayDateSeed()` or pass different seed to `generatePuzzle()`
-2. Click "Reset Progress" button to clear localStorage
+2. Click "CLICK to reset" in the footer to clear localStorage for current strategy
 3. Reload page for fresh puzzle state
+
+To test different strategies:
+1. Use URL parameter: `?strategy=curated` or `?strategy=historic`
+2. Each strategy has separate localStorage, so switching won't lose progress
+3. Reset only clears progress for the active strategy
 
 To modify word list:
 1. Edit `scripts/processWordData.ts`
 2. Run `npm run process-words`
 3. Rebuild/reload dev server
+
+To add historic puzzles:
+1. Add puzzle data to `src/data/historicPuzzles.json`
+2. Or use `scripts/convertPuzzles.ts` to batch import from text format
 
 ## Creating New Puzzle Strategies
 

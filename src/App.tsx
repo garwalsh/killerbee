@@ -1,3 +1,7 @@
+/**
+ * Main application component for Killer Bee word puzzle game
+ */
+
 import { useEffect, useCallback, useState } from 'react';
 import { useGameState } from './hooks/useGameState';
 import { ScorePanel } from './components/ScorePanel';
@@ -9,6 +13,9 @@ import { FoundWords } from './components/FoundWords';
 import { HelpModal } from './components/HelpModal';
 import './styles/App.css';
 
+/**
+ * Root component that orchestrates the game UI and keyboard interactions
+ */
 function App() {
   const {
     gameState,

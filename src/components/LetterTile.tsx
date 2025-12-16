@@ -1,3 +1,7 @@
+/**
+ * Component for individual letter tiles in the game
+ */
+
 import '../styles/LetterTile.css';
 
 interface LetterTileProps {
@@ -6,6 +10,10 @@ interface LetterTileProps {
   onClick: () => void;
 }
 
+/**
+ * Clickable letter tile component
+ * Center letter is highlighted with special styling
+ */
 export function LetterTile({ letter, isCenterLetter, onClick }: LetterTileProps) {
   return (
     <button

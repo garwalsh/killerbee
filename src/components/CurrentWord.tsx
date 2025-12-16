@@ -1,9 +1,17 @@
+/**
+ * Component for displaying the current word being typed
+ */
+
 import '../styles/CurrentWord.css';
 
 interface CurrentWordProps {
   word: string;
 }
 
+/**
+ * Displays the word currently being built by the player
+ * Shows a placeholder message when empty and includes a blinking cursor
+ */
 export function CurrentWord({ word }: CurrentWordProps) {
   return (
     <div className="current-word">

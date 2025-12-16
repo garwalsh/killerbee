@@ -1,3 +1,7 @@
+/**
+ * Component for displaying the row of letter tiles
+ */
+
 import { LetterTile } from './LetterTile';
 import '../styles/LetterRow.css';
 
@@ -8,6 +12,10 @@ interface LetterRowProps {
   onLetterClick: (letter: string) => void;
 }
 
+/**
+ * Displays all 7 letter tiles in a row
+ * The shuffledOrder determines the display order (center letter stays at position 3)
+ */
 export function LetterRow({ letters, centerLetter, shuffledOrder, onLetterClick }: LetterRowProps) {
   return (
     <div className="letter-row">

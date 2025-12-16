@@ -1,9 +1,17 @@
+/**
+ * Component for displaying the list of successfully found words
+ */
+
 import '../styles/FoundWords.css';
 
 interface FoundWordsProps {
   words: string[];
 }
 
+/**
+ * Displays all words that the player has successfully found
+ * Words are displayed alphabetically for easy scanning
+ */
 export function FoundWords({ words }: FoundWordsProps) {
   if (words.length === 0) {
     return (
