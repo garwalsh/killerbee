@@ -1,16 +1,53 @@
 .letter-row {
   display: flex;
+  flex-direction: column;
   gap: 12px;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
   padding: 20px;
 }
 
-@media (max-width: 480px) {
+.letter-row-top,
+.letter-row-middle,
+.letter-row-bottom {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* On larger screens, display all letters in a single row */
+@media (min-width: 769px) {
+  .letter-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .letter-row-top,
+  .letter-row-middle,
+  .letter-row-bottom {
+    gap: 0;
+  }
+
+  /* Add gaps between tiles in horizontal layout */
+  .letter-row-top > *:not(:last-child),
+  .letter-row-middle > *,
+  .letter-row-bottom > *:not(:last-child) {
+    margin-right: 12px;
+  }
+}
+
+@media (max-width: 768px) {
   .letter-row {
     gap: 8px;
     padding: 15px;
+  }
+
+  .letter-row-top,
+  .letter-row-middle,
+  .letter-row-bottom {
+    gap: 8px;
   }
 }
 
@@ -18,5 +55,11 @@
   .letter-row {
     gap: 16px;
     padding: 30px;
+  }
+
+  .letter-row-top > *:not(:last-child),
+  .letter-row-middle > *,
+  .letter-row-bottom > *:not(:last-child) {
+    margin-right: 16px;
   }
 }
