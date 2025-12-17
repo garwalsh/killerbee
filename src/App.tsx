@@ -3,6 +3,7 @@
  */
 
 import { useEffect, useCallback, useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { useGameState } from './hooks/useGameState';
 import { ScorePanel } from './components/ScorePanel';
 import { CurrentWord } from './components/CurrentWord';
@@ -142,6 +143,8 @@ function App() {
         isOpen={isHelpOpen}
         onClose={() => setIsHelpOpen(false)}
       />
+
+      <Analytics />
     </div>
   );
 }
